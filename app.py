@@ -3,8 +3,8 @@ import streamlit as st
 # Cấu hình giao diện trang web
 st.set_page_config(page_title="Cuộc Đua Vịt Hoạt Họa 3D", page_icon="🦆", layout="centered")
 
-st.title("🏖️ Cuộc Đua Vịt Hoạt Họa Chạy Bộ Siêu Mượt 🎈")
-st.write("Nhập tên đấu thủ và xem các chú vịt 🦆 nhún nhảy chạy đua về đích!")
+st.title("🏖️ Cuộc Đua Vịt dàng cho mấy đứa chơi casino🐧 🎈")
+st.write("Nhập tên đấu thủ và xem các chú vịt 🦆!")
 
 # Ô nhập tên các đấu thủ đua vịt
 input_names = st.text_area("Danh sách đấu thủ (mỗi dòng một tên):", value="Vịt Vàng\nVịt Xanh\nVịt Đỏ\nVịt Hồng")
