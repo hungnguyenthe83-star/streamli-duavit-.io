@@ -1,10 +1,10 @@
 import streamlit as st
 
 # Cấu hình giao diện trang web
-st.set_page_config(page_title="Cuộc Đua Vịt 3D Bãi Biển", page_icon="🦆", layout="centered")
+st.set_page_config(page_title="Cuộc Đua Vịt Hoạt Họa 3D", page_icon="🦆", layout="centered")
 
-st.title("🏖️ Cuộc Đua Vịt 3D Bãi Biển Siêu Nhẹ 🎈")
-st.write("Nhập tên đấu thủ và xem các chú vịt 3D bứt tốc về đích!")
+st.title("🏖️ Cuộc Đua Vịt Hoạt Họa Chạy Bộ Siêu Mượt 🎈")
+st.write("Nhập tên đấu thủ và xem các chú vịt 🦆 nhún nhảy chạy đua về đích!")
 
 # Ô nhập tên các đấu thủ đua vịt
 input_names = st.text_area("Danh sách đấu thủ (mỗi dòng một tên):", value="Vịt Vàng\nVịt Xanh\nVịt Đỏ\nVịt Hồng")
@@ -17,7 +17,7 @@ if st.button("Bắt Đầu Đua!", type="primary"):
     else:
         js_names = str(names)
         
-        # Nhúng toàn bộ mã HTML/CSS/JS tạo mô hình vịt 3D hiệu ứng chiều sâu bằng mã thuần
+        # Nhúng toàn bộ mã HTML/CSS/JS tạo mô hình hoạt họa vịt chạy
         html_code = f"""
         <!DOCTYPE html>
         <html>
@@ -29,59 +29,79 @@ if st.button("Bắt Đầu Đua!", type="primary"):
                     margin: 0;
                     padding: 10px;
                     overflow: hidden;
-                    perspective: 600px; /* Tạo không gian 3D sâu cho trình duyệt */
+                    perspective: 600px;
                 }}
-                /* Thiết kế đường đua bãi biển góc nghiêng 3D */
+                /* Đường đua bãi biển góc nghiêng 3D */
                 .track-container {{
                     background: linear-gradient(to bottom, #4fc3f7 0%, #4fc3f7 65%, #ffe082 65%, #ffe082 100%);
                     border: 4px solid #0288d1;
                     border-radius: 12px;
                     padding: 30px 10px;
                     position: relative;
-                    transform: rotateX(15deg); /* Nghiêng đường đua tạo cảm giác 3D */
+                    transform: rotateX(15deg);
                     box-shadow: 0 15px 30px rgba(0,0,0,0.2), inset 0 0 20px rgba(0,0,0,0.1);
                 }}
                 .lane {{
                     position: relative;
-                    height: 65px;
+                    height: 70px;
                     margin-bottom: 15px;
                     border-bottom: 2px dashed rgba(255,255,255,0.4);
                     display: flex;
                     align-items: center;
                 }}
-                /* Tạo mô hình Vịt 3D nhẹ máy từ CSS */
                 .duck-3d-box {{
                     position: absolute;
                     left: 0px;
-                    width: 40px;
-                    height: 40px;
+                    width: 50px;
+                    height: 50px;
                     transition: left 0.1s linear;
                     z-index: 2;
                     transform-style: preserve-3d;
                 }}
-                /* Hình khối thân vịt 3D có đổ bóng khối */
+                /* Hiệu ứng HOẠT HỌA CHẠY BỘ (Animation) */
                 .duck-body {{
-                    font-size: 36px;
+                    font-size: 38px;
                     position: relative;
-                    text-shadow: 3px 3px 0px #f57f17, 6px 6px 5px rgba(0,0,0,0.3); /* Tạo khối 3D giả lập cho Emoji */
-                    animation: waddle 0.2s infinite alternate ease-in-out; /* Hiệu ứng vịt lắc lư đi bộ */
+                    text-shadow: 3px 3px 0px #f57f17, 6px 6px 5px rgba(0,0,0,0.3);
+                    /* Gọi hiệu ứng running: chạy liên tục trong 0.25 giây, đổi chiều liên tục */
+                    animation: running 0.25s infinite alternate ease-in-out;
+                    transform-origin: bottom center;
                 }}
-                /* Hiệu ứng bóng đổ dưới chân vịt trên cát */
+                /* Hoạt họa bóng đổ co giãn theo nhịp chạy của vịt */
                 .duck-shadow {{
                     position: absolute;
-                    bottom: -5px;
+                    bottom: -2px;
                     left: 5px;
-                    width: 30px;
+                    width: 32px;
                     height: 8px;
-                    background: rgba(0, 0, 0, 0.2);
+                    background: rgba(0, 0, 0, 0.25);
                     border-radius: 50%;
                     filter: blur(2px);
                     z-index: 1;
+                    animation: shadow-change 0.25s infinite alternate ease-in-out;
+                }}
+                /* Định nghĩa hành động chạy bộ kịch tính */
+                @keyframes running {{
+                    0% {{ 
+                        transform: scaleY(0.9) scaleX(1.05) rotate(-8deg) translateY(0); 
+                    }}
+                    50% {{
+                        transform: scaleY(1.05) scaleX(0.95) rotate(0deg) translateY(-8px); /* Vịt bật nhảy lên cao */
+                    }}
+                    100% {{ 
+                        transform: scaleY(0.9) scaleX(1.05) rotate(8deg) translateY(0); /* Vịt giậm chân đổi bên */
+                    }}
+                }}
+                /* Định nghĩa bóng nhỏ lại khi vịt nhảy lên cao */
+                @keyframes shadow-change {{
+                    0% {{ transform: scale(1); opacity: 1; }}
+                    50% {{ transform: scale(0.7); opacity: 0.5; }}
+                    100% {{ transform: scale(1); opacity: 1; }}
                 }}
                 .duck-name {{
                     position: absolute;
-                    top: -15px;
-                    left: 45px;
+                    top: -12px;
+                    left: 50px;
                     background: rgba(255,255,255,0.95);
                     padding: 2px 8px;
                     border-radius: 8px;
@@ -107,14 +127,7 @@ if st.button("Bắt Đầu Đua!", type="primary"):
                     color: #d81b60;
                     margin-top: 20px;
                     display: none;
-                    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
                 }}
-                /* Định nghĩa bước đi lắc lư của vịt */
-                @keyframes waddle {{
-                    0% {{ transform: rotate(-6deg) translateY(0); }}
-                    100% {{ transform: rotate(6deg) translateY(-4px); }}
-                }}
-                /* Cấu hình bóng bay 🎈 */
                 .balloon {{
                     position: fixed;
                     bottom: -100px;
@@ -143,9 +156,8 @@ if st.button("Bắt Đầu Đua!", type="primary"):
                 const winnerAnnounce = document.getElementById('winnerAnnounce');
                 
                 const duckData = [];
-                const maxRight = track.clientWidth - 100; 
+                const maxRight = track.clientWidth - 110; 
 
-                // Tạo các làn đua vịt 3D
                 names.forEach((name, index) => {{
                     const lane = document.createElement('div');
                     lane.className = 'lane';
@@ -165,7 +177,6 @@ if st.button("Bắt Đầu Đua!", type="primary"):
                     duckData.push({{ element: box, name: name, pos: 0 }});
                 }});
 
-                // Hàm tạo bùng nổ bóng bay 🎈 ngay lập tức
                 function spawnBalloons() {{
                     for(let i = 0; i < 40; i++) {{
                         setTimeout(() => {{
@@ -179,7 +190,6 @@ if st.button("Bắt Đầu Đua!", type="primary"):
                     }}
                 }}
 
-                // Vòng lặp cuộc đua siêu mượt
                 let raceOver = false;
                 const interval = setInterval(() => {{
                     if (raceOver) return;
@@ -204,7 +214,7 @@ if st.button("Bắt Đầu Đua!", type="primary"):
         </html>
         """
         
-        # Nhúng HTML vào Streamlit
-        st.components.v1.html(html_code, height=580)
+        st.components.v1.html(html_code, height=600)
+
 
 
