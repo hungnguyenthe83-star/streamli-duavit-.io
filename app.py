@@ -15,7 +15,6 @@ if st.button("Bắt Đầu Đua!", type="primary"):
     if len(names) < 2:
         st.error("Bạn cần nhập ít nhất 2 chú vịt để bắt đầu cuộc đua!")
     else:
-        # Chuyển đổi danh sách tên Python thành dạng mảng JavaScript để xử lý mượt mà
         js_names = str(names)
         
         # Nhúng toàn bộ mã HTML/CSS/JS bãi biển và bóng bay mượt mà vào Streamlit
@@ -76,30 +75,25 @@ if st.button("Bắt Đầu Đua!", type="primary"):
                 }}
                 .winner-text {{
                     text-align: center;
-                    font-size: 24px;
+                    font-size: 26px;
                     font-weight: bold;
                     color: #d81b60;
                     margin-top: 20px;
                     display: none;
                 }}
-                /* Hiệu ứng bóng bay bay lên khi về đích */
+                /* Cấu hình bóng bay 🎈 */
                 .balloon {{
-                    position: absolute;
+                    position: fixed;
                     bottom: -100px;
-                    width: 30px;
-                    height: 40px;
-                    border-radius: 50%;
-                    animation: floatUp 4s ease-in forwards;
-                    z-index: 99;
-                }}
-                .balloon::after {{
-                    content: "🎈";
-                    font-size: 40px;
+                    font-size: 50px;
+                    animation: floatUp 3s linear forwards;
+                    z-index: 9999;
+                    pointer-events: none;
                 }}
                 @keyframes floatUp {{
-                    0% {{ bottom: -100px; transform: translateX(0); opacity: 1; }}
-                    50% {{ transform: translateX(30px); }}
-                    100% {{ bottom: 100%; transform: translateX(-30px); opacity: 0; }}
+                    0% {{ bottom: -100px; transform: translateX(0) rotate(0deg); opacity: 1; }}
+                    50% {{ transform: translateX(50px) rotate(15deg); }}
+                    100% {{ bottom: 105vh; transform: translateX(-50px) rotate(-15deg); opacity: 0; }}
                 }}
             </style>
         </head>
@@ -116,7 +110,7 @@ if st.button("Bắt Đầu Đua!", type="primary"):
                 const winnerAnnounce = document.getElementById('winnerAnnounce');
                 
                 const duckData = [];
-                const maxRight = track.clientWidth - 90; // Vạch đích
+                const maxRight = track.clientWidth - 90; 
 
                 // Tạo các làn đua vịt bãi biển
                 names.forEach((name, index) => {{
@@ -133,26 +127,28 @@ if st.button("Bắt Đầu Đua!", type="primary"):
                     duckData.push({{ element: duck, name: name, pos: 0 }});
                 }});
 
-                // Hàm thả bóng bay ăn mừng liên tục
+                // Hàm tạo bùng nổ bóng bay 🎈 ngay lập tức
                 function spawnBalloons() {{
-                    for(let i=0; i<30; i++) {{
+                    for(let i = 0; i < 40; i++) {{
                         setTimeout(() => {{
                             const balloon = document.createElement('div');
                             balloon.className = 'balloon';
-                            balloon.style.left = Math.random() * 90 + '%';
-                            balloon.style.animationDelay = Math.random() * 2 + 's';
+                            balloon.innerText = '🎈';
+                            balloon.style.left = Math.random() * 95 + '%';
+                            // Tạo tốc độ bay ngẫu nhiên cho tự nhiên
+                            balloon.style.animationDuration = (Math.random() * 2 + 2) + 's'; 
                             document.body.appendChild(balloon);
-                        }}, i * 150);
+                        }}, i * 80); // Cứ mỗi 80 mili giây lại có bóng mới bay lên
                     }}
                 }}
 
-                // Vòng lặp cuộc đua 60fps siêu mượt bằng JavaScript gốc
+                // Vòng lặp cuộc đua 60fps siêu mượt
                 let raceOver = false;
                 const interval = setInterval(() => {{
                     if (raceOver) return;
 
                     duckData.forEach(duck => {{
-                        const step = Math.random() * 4 + 1; // Nhảy bước ngẫu nhiên nhỏ và mịn
+                        const step = Math.random() * 4 + 1; 
                         duck.pos += step;
                         duck.element.style.left = duck.pos + 'px';
 
@@ -160,19 +156,19 @@ if st.button("Bắt Đầu Đua!", type="primary"):
                             raceOver = true;
                             clearInterval(interval);
                             
-                            // Hiển thị người thắng cuộc và bắn bóng bay
+                            // Hiện người thắng và thả bóng bay lập tức!
                             winnerAnnounce.innerHTML = "🎉 Người chiến thắng: 🏆 <strong>" + duck.name + "</strong> 🏆";
                             winnerAnnounce.style.display = "block";
                             spawnBalloons();
                         }}
                     }});
-                }}, 30); // Chạy mượt mà sau mỗi 30 mili giây
+                }}, 30); 
             </script>
         </body>
         </html>
         """
         
-        # Nhúng HTML vào Streamlit với chiều cao khung là 550px
+        # Nhúng HTML vào Streamlit [Streamlit Components API Reference]
         st.components.v1.html(html_code, height=550)
 
 
