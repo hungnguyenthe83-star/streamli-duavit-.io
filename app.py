@@ -3,11 +3,15 @@ import streamlit as st
 # Cấu hình giao diện trang web
 st.set_page_config(page_title="Cuộc Đua Vịt Hoạt Họa 3D", page_icon="🦆", layout="centered")
 
-st.title("🏖️ Cuộc Đua Vịt dàng cho mấy đứa chơi casino🐧 🎈")
+st.title("🏖️ Cuộc Đua Vịt dành cho mấy đứa chơi casino🐧 🎈")
 st.write("Nhập tên đấu thủ và xem các chú vịt 🦆!")
 
 # Ô nhập tên các đấu thủ đua vịt
 input_names = st.text_area("Danh sách đấu thủ (mỗi dòng một tên):", value="Vịt Vàng\nVịt Xanh\nVịt Đỏ\nVịt Hồng")
+
+# BẬT NHẠC NỀN YOUTUBE: Thêm mã ID video YouTube của bạn vào đây (Mặc định là nhạc đua vui nhộn)
+YOUTUBE_VIDEO_ID = "HP2C6bDjUqc"
+Dưới đây là mã nguồn ứng dụng đua vịt của bạn đã được thay thế chính xác ID bà" 
 
 if st.button("Bắt Đầu Đua!", type="primary"):
     names = [name.strip() for name in input_names.split("\n") if name.strip()]
@@ -17,7 +21,7 @@ if st.button("Bắt Đầu Đua!", type="primary"):
     else:
         js_names = str(names)
         
-        # Nhúng toàn bộ mã HTML/CSS/JS tạo mô hình hoạt họa vịt chạy
+        # Nhúng toàn bộ mã HTML/CSS/JS tạo mô hình hoạt họa vịt chạy kết hợp trình phát nhạc YouTube ẩn
         html_code = f"""
         <!DOCTYPE html>
         <html>
@@ -145,6 +149,17 @@ if st.button("Bắt Đầu Đua!", type="primary"):
         </head>
         <body>
 
+            <!-- Khung iframe YouTube ẩn phát nhạc nền tự động và lặp lại liên tục -->
+            <iframe 
+                width="0" 
+                height="0" 
+                src="https://youtube.com{YOUTUBE_VIDEO_ID}?autoplay=1&loop=1&playlist={YOUTUBE_VIDEO_ID}&mute=0" 
+                title="YouTube music player" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                style="position: absolute; top: -9999px; left: -9999px; visibility: hidden;">
+            </iframe>
+
             <div class="track-container" id="track">
                 <div class="finish-line"></div>
             </div>
@@ -215,6 +230,5 @@ if st.button("Bắt Đầu Đua!", type="primary"):
         """
         
         st.components.v1.html(html_code, height=600)
-
 
 
