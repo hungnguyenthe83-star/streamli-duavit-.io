@@ -9,9 +9,8 @@ st.write("Nhập tên đấu thủ và xem các chú vịt 🦆!")
 # Ô nhập tên các đấu thủ đua vịt
 input_names = st.text_area("Danh sách đấu thủ (mỗi dòng một tên):", value="Vịt Vàng\nVịt Xanh\nVịt Đỏ\nVịt Hồng")
 
-# BẬT NHẠC NỀN YOUTUBE: Thêm mã ID video YouTube của bạn vào đây (Mặc định là nhạc đua vui nhộn)
-YOUTUBE_VIDEO_ID = "HP2C6bDjUqc"
-Dưới đây là mã nguồn ứng dụng đua vịt của bạn đã được thay thế chính xác ID bà" 
+# ĐÃ CẬP NHẬT: Mã ID bài hát từ link YouTube của bạn
+YOUTUBE_VIDEO_ID = "HP2C6bDjUqc" 
 
 if st.button("Bắt Đầu Đua!", type="primary"):
     names = [name.strip() for name in input_names.split("\n") if name.strip()]
@@ -149,7 +148,7 @@ if st.button("Bắt Đầu Đua!", type="primary"):
         </head>
         <body>
 
-            <!-- Khung iframe YouTube ẩn phát nhạc nền tự động và lặp lại liên tục -->
+            <!-- Khung iframe YouTube ẩn phát bài hát của bạn tự động và lặp lại liên tục -->
             <iframe 
                 width="0" 
                 height="0" 
@@ -230,5 +229,3 @@ if st.button("Bắt Đầu Đua!", type="primary"):
         """
         
         st.components.v1.html(html_code, height=600)
-
-
